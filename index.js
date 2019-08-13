@@ -85,3 +85,72 @@ Circle.prototype.makeAString = function() {
 //! ALWAYS AVOID changing built in methods and properties like shuffle
 
 
+//! CREATING prototypical inheritance
+function Shape(color) {
+  this.color = color
+}
+Shape.prototype.duplicate = function() {
+  return `duplicate`
+}
+function Circular(radius) {
+  this.radius = radius
+}
+//originally its base is object base
+// Circular.prototype = Object.create(Object.prototype)
+
+//here we change the tree
+//now it inherits the Shape before the base object
+Circular.prototype = Object.create(Shape.prototype)
+
+Circular.prototype.draw = function() {
+  console.log(`draw`)
+}
+
+const s = new Shape()
+const c = new Circular()
+
+console.log(c.duplicate())
+
+//! Dynamically creating a constructor
+// Circular.prototype.constructor(1)
+//is the same as Circular(1)
+//* best practice is to reset prototype
+//Circular.prototype.constructor = Circle
+
+//!SUPER
+//when u dont use the new operator it will point to the window object
+//window.color
+
+//instead
+function SecondCircle(radius, color) {
+  //this is how u add the color from the shape parent
+  Shape.call(this, color)
+  this.radius = radius
+}
+
+SecondCircle.prototype = Object.create(Shape.prototype)
+
+SecondCircle.prototype.secondDraw = function() {
+  return `secondDraw`
+}
+
+let sc = new SecondCircle(1, 'red')
+console.log(`showing the super constructor`, sc)
+
+//! CHILD AND PARENT
+function SecondSquare(size) {
+  this.size = size
+}
+//this is a little noisy
+// SecondSquare.prototype = Object.create(Shape.prototype)
+// SecondSquare.prototype.constructor = SecondCircle
+//*this is called intermediate function inheritance
+function extend(Child, Parent) {
+  Child.prototype = Object.create(Parent.prototype)
+  Child.prototype.constructor = Parent
+}
+extend(SecondSquare, Shape)
+const ss = new SecondSquare(10)
+//duplicate is coming from the original shape
+console.log(ss.duplicate())
+
