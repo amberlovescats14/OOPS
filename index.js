@@ -80,3 +80,8 @@ Circle.prototype.makeAString = function() {
 
 // for(let key in c1 ) => will return all keys including prototypes
 
+// c1.hasOwnProperty only returns true on original keys
+
+//! ALWAYS AVOID changing built in methods and properties like shuffle
+
+
