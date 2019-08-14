@@ -195,7 +195,7 @@ for( let l of amber ) console.log(l)
 
 //! When to use inheritance
 //keep it simple, only if u see repetitive code use inheritance
-
+// use composition instead of inheritance
 
 
 
