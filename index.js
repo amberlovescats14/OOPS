@@ -109,7 +109,7 @@ Circular.prototype.draw = function() {
 const s = new Shape()
 const c = new Circular()
 
-console.log(c.duplicate())
+// console.log(c.duplicate())
 
 //! Dynamically creating a constructor
 // Circular.prototype.constructor(1)
@@ -135,7 +135,7 @@ SecondCircle.prototype.secondDraw = function() {
 }
 
 let sc = new SecondCircle(1, 'red')
-console.log(`showing the super constructor`, sc)
+// console.log(`showing the super constructor`, sc)
 
 //! CHILD AND PARENT
 function SecondSquare(size) {
@@ -144,6 +144,8 @@ function SecondSquare(size) {
 //this is a little noisy
 // SecondSquare.prototype = Object.create(Shape.prototype)
 // SecondSquare.prototype.constructor = SecondCircle
+//*
+//*
 //*this is called intermediate function inheritance
 function extend(Child, Parent) {
   Child.prototype = Object.create(Parent.prototype)
@@ -152,5 +154,48 @@ function extend(Child, Parent) {
 extend(SecondSquare, Shape)
 const ss = new SecondSquare(10)
 //duplicate is coming from the original shape
-console.log(ss.duplicate())
+// console.log(ss.duplicate())
+
+//! method overiding on the child
+//this has to happen after setting the original prototype
+SecondSquare.prototype.duplicate = function() {
+  return `Duplicate Change `
+}
+// console.log(ss.duplicate())
+
+//!method overide on the parent
+SecondSquare.prototype.duplicate = function() {
+  //Im just console logging it so i can see it in the console
+  console.log(Shape.prototype.duplicate.call(this))
+  return `Duplicate Change`
+}
+// console.log(ss.duplicate())
+
+//!polymorphism
+// many forms
+function ThirdSquare() {
+
+}
+extend(ThirdSquare, Shape)
+
+ThirdSquare.prototype.duplicate = function() {
+  return `Third Duplicate`
+}
+const shapes = [
+  new SecondCircle(),
+  new SecondSquare()
+]
+//this is going to loop and run the duplicate method on each shape in the arrray
+// THIS IS POLYMORPHISMN
+for (let shape of shapes) console.log((shape.duplicate()))
+
+//this is for my own example
+let amber = ['a', 'm', 'b', 'e', 'r']
+for( let l of amber ) console.log(l)
+
+//! When to use inheritance
+//keep it simple, only if u see repetitive code use inheritance
+
+
+
 
